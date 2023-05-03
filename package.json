@@ -1,0 +1,24 @@
+{
+  "name": "disneycharacterscli",
+  "version": "1.0.0",
+  "description": "search all Disney characters and their related information",
+  "main": "cli.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cherlesmd/DisneyCharactersCLI.git"
+  },
+  "author": "Charlie Martinez Dominguez, Ashley Pablo-Ramirez, Diego Flores",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cherlesmd/DisneyCharactersCLI/issues"
+  },
+  "homepage": "https://github.com/cherlesmd/DisneyCharactersCLI#readme",
+  "dependencies": {
+    "prompts": "^2.4.2",
+    "superagent": "^8.0.9",
+    "yargs": "^17.7.1"
+  }
+}
