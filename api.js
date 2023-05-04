@@ -14,10 +14,11 @@ const getWithQuery = async (characterName) => {
     }
 };
 
+// new api update is not "character" not "characters"
 const getWithId = async (id) => {
-    // https://api.disneyapi.dev/characters/308
+    // https://api.disneyapi.dev/character/308
     try {
-        const charUrl = `${base}/characters/${id}`;
+        const charUrl = `${base}/character/${id}`;
         const res = await superagent.get(charUrl);
 
         // returns character object with all detailed info
