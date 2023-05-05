@@ -9,6 +9,8 @@
   "author": "Charlie Martinez, Diego Flores, Ashley Pablo",
   "license": "ISC",
   "dependencies": {
-    "disneycharacterscli": "file:../disney-api"
+    "disneycharacterscli": "file:../disney-api",
+    "prompts": "^2.4.2",
+    "yargs": "^17.7.2"
   }
 }
