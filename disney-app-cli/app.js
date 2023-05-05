@@ -1,6 +1,6 @@
 const prompts = require('prompts'); 
-const api = require('./api.js'); 
-const history = require("./history.js");
+const api = require('../disney-api/api.js'); 
+const history = require("../history.js");
 
 //gets character names based on argument, runs a prompt after searching to select character.
 // main function being called by cli.js
