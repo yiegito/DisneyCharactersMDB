@@ -1,6 +1,6 @@
 const yargs = require('yargs/yargs');
 const process = require('process');
-const api = require('./api.js'); 
+const api = require('../disney-api/api.js'); 
 
 const app = require('./app.js'); 
 
@@ -42,5 +42,5 @@ const app = require('./app.js');
                 app.characterInformation(firstName);
             };  
         }
-        // when they need help
+        // when they need ha elp
         ).help().argv;  
