@@ -1,0 +1,16 @@
+{
+  "name": "disney-app-cli",
+  "version": "1.0.0",
+  "description": "a cli that will interact with Disney's API which will search for a character",
+  "main": "cli.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Charlie Martinez, Diego Flores, Ashley Pablo",
+  "license": "ISC",
+  "dependencies": {
+    "disneycharacterscli": "file:../disney-api",
+    "prompts": "^2.4.2",
+    "yargs": "^17.7.2"
+  }
+}
