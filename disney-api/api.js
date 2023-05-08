@@ -22,7 +22,7 @@ const getWithId = async (id) => {
         const res = await superagent.get(charUrl);
 
         // returns character object with all detailed info
-        return res.body;
+        return res.body.data;
     } catch (error) {
         console.log(error);
     }
