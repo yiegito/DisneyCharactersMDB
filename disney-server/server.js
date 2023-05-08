@@ -1,13 +1,14 @@
 const express = require('express'); 
 const {MongoClient} = require('mongodb'); 
 
+const config = require('./config.json'); 
+
 const app = express(); 
 const port = 800; 
 
-const mongoConnect = mongo(); 
 
 const mongo = () => {
-    const mongoURL = ''; 
+    const mongoURL = `mongodb+srv://${config.username}:${config.password}@disneydatabase.ehsdber.mongodb.net/${config.database_name}?retryWrites=true&w=majority`; 
     let database = null; 
     async function connect() {
         try {
@@ -30,6 +31,8 @@ const mongo = () => {
         connect
     }; 
 }
+
+const mongoConnect = mongo(); 
 
 app.listen(port, async() => {
     console.log(`Server is now listening on port ${port}`); 
