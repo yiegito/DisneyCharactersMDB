@@ -31,7 +31,7 @@ const filterData = async (data) => {
     console.log("\nName: " + name);
     // films
     const film = data.films; 
-    if(film[0] == null){
+    if(film == undefined || film.length == 0){
         console.log("\nFilms: None ")
     }
     else{
@@ -42,7 +42,7 @@ const filterData = async (data) => {
     }
     // short films
     const shorts = data.shortFilms; 
-    if(shorts[0] == null){
+    if(shorts == undefined || shorts.length == 0){
         console.log("\nShort Films: None ")
     }
     else{
@@ -53,7 +53,7 @@ const filterData = async (data) => {
     }
     // tv shows
     const shows = data.films; 
-    if(shows[0] == null){
+    if(shows == undefined || shows.length == 0){
         console.log("\nTV Shows: None ")
     }
     else{
@@ -64,7 +64,7 @@ const filterData = async (data) => {
     }
     // video games
     const games = data.videoGames; 
-    if(games[0] == null){
+    if(games == undefined || games.length == 0){
         console.log("\nVideo Games: None ")
     }
     else{
@@ -75,7 +75,7 @@ const filterData = async (data) => {
     }
     // park attractions
     const park = data.parkAttractions; 
-    if(park[0] == null){
+    if(park == undefined || park.length == 0){
         console.log("\nPark Attractions: None ")
     }
     else{
@@ -86,7 +86,7 @@ const filterData = async (data) => {
     }
     // allies
     const allies = data.allies; 
-    if(allies[0] == null){
+    if(allies == undefined || allies.length == 0){
         console.log("\nAllies: None ")
     }
     else{
@@ -97,7 +97,7 @@ const filterData = async (data) => {
     }
     // enemies
     const enemies = data.enemies; 
-    if(enemies[0] == null){
+    if(enemies == undefined || enemies.length == 0){
         console.log("\nEnemies: None ")
     }
     else{
