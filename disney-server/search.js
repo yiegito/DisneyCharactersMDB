@@ -3,6 +3,13 @@ const router = require('express').Router();
 const database = require('./server.js'); 
 const api = require('../disney-api/api.js'); 
 
+const _selectCharacterPrompt = async (characters) => {
+    const displayCharacter = characters.map((character) => {
+        return {name : `${character.name}`, id: character._id}
+    });
+    return displayCharacter; 
+};
+
 
 // middleware?
 router.use((req, res, next) => {
@@ -14,10 +21,20 @@ router.use((req, res, next) => {
 // this is '/search'
 router.get('/', async(req, res) => {
     try{
-        console.log('ello world'); 
+        const {query} = req;
 
-        // const {term} = req.query; 
-        // console.log(term); 
+        // character is the query parameter
+        // aka will return the character searched for
+        const {character} = query;
+
+        const char = await api.getWithQuery(character); 
+
+        const selected = await _selectCharacterPrompt(char); 
+
+        console.log(selected); 
+
+        // error when only 1 object in array
+        res.json(selected); 
 
     }
     catch(error){
@@ -26,14 +43,14 @@ router.get('/', async(req, res) => {
 
 });
 
-// router.get('/:charactername', async(req, res) => {
-//     try{
+router.get('/:charactername', async(req, res) => {
+    try{
 
-//     }
-//     catch(error){
-//         res.status(500).json(error.toString()); 
-//     }
+    }
+    catch(error){
+        res.status(500).json(error.toString()); 
+    }
 
-// }); 
+}); 
 
 module.exports = router; 
