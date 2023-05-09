@@ -5,7 +5,7 @@ const api = require('../disney-api/api.js');
 
 const _selectCharacterPrompt = async (characters) => {
     const displayCharacter = characters.map((character) => {
-        return {name : `${character.name}`, id: character._id}
+        return {display : `${character.name}`, id: character._id}
     });
     return displayCharacter; 
 };
@@ -31,10 +31,17 @@ router.get('/', async(req, res) => {
 
         const selected = await _selectCharacterPrompt(char); 
 
-        console.log(selected); 
+        const result = {
+            searchTerm: character, 
+            results:[...selected] }
 
+        console.log(result); 
+
+        // gets the search results and responds with json
         // error when only 1 object in array
-        res.json(selected); 
+        res.json(result); 
+
+        // create the search history object in MongoDB
 
     }
     catch(error){
@@ -43,9 +50,18 @@ router.get('/', async(req, res) => {
 
 });
 
-router.get('/:charactername', async(req, res) => {
+
+
+router.get('/:id/details', async(req, res) => {
     try{
 
+        const {params} = req;
+
+        const{id} = params; 
+
+        const background = await api.getWithId(id); 
+
+        console.log(background);
     }
     catch(error){
         res.status(500).json(error.toString()); 
