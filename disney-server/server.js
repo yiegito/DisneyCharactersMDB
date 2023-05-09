@@ -4,7 +4,11 @@ const {MongoClient} = require('mongodb');
 const config = require('./config.json'); 
 
 const app = express(); 
-const port = 800; 
+const port = 8888; 
+
+// this is needed in order to handle requests to '/search' 
+const search = require('./search.js'); 
+app.use('/search', search)
 
 
 const mongo = () => {
