@@ -54,4 +54,22 @@ router.get('/', async(req, res) => {
 
 
 
+router.get('/:id/details', async(req, res) => {
+    try{
+
+        const {params} = req;
+
+        const{id} = params; 
+
+        const background = await api.getWithId(id); 
+
+        console.log(background);
+        res.json(background); 
+    }
+    catch(error){
+        res.status(500).json(error.toString()); 
+    }
+
+});
+
 module.exports = router; 
