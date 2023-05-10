@@ -1,0 +1,5 @@
+{
+    "username" : "dbadmin", 
+    "password" : "1234abcd", 
+    "database_name" : "characterDB"
+}

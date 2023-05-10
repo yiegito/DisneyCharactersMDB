@@ -1,12 +1,21 @@
 {
-  "name": "server",
+  "name": "disney-server",
   "version": "1.0.0",
   "description": "server to disney api",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server.js",
+    "dev": "npx nodemon server.js"
   },
   "author": "Charlie Martinez, Diego Flores, Ashley Pablo",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "disneycharacterscli": "file:../disney-api",
+    "express": "^4.18.2",
+    "mongodb": "^5.4.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
 }
