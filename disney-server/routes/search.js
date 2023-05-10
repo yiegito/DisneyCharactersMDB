@@ -44,21 +44,6 @@ router.get('/', async(req, res) => {
 
 });
 
-router.get('/:charactername', async(req, res) => {
-    try{
-        // W.I.P.
-        const { params, query} = req;
 
-        const {characterID} = params;
-        const {characterName} = query;
-
-
-
-    }
-    catch(error){
-        res.status(500).json(error.toString()); 
-    }
-
-}); 
 
 module.exports = router; 
