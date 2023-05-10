@@ -1,7 +1,7 @@
 const router = require('express').Router(); 
 
-const database = require('./server.js'); 
-const api = require('../disney-api/api.js'); 
+const database = require('../server.js'); 
+const api = require('../../disney-api/api.js'); 
 
 const _selectCharacterPrompt = async (characters) => {
     const displayCharacter = characters.map((character) => {
@@ -42,6 +42,7 @@ router.get('/', async(req, res) => {
         res.json(result); 
 
         // create the search history object in MongoDB
+        // number 2
 
     }
     catch(error){
@@ -62,6 +63,7 @@ router.get('/:id/details', async(req, res) => {
         const background = await api.getWithId(id); 
 
         console.log(background);
+        res.json(background); 
     }
     catch(error){
         res.status(500).json(error.toString()); 
