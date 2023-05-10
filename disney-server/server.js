@@ -7,7 +7,7 @@ const app = express();
 const port = 8888; 
 
 // this is needed in order to handle requests to '/search' 
-const search = require('./routes/search.js');  
+const search = require('./routes/search.js'); 
 app.use('/search', search)
 
 

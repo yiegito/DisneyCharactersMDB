@@ -3,6 +3,7 @@ const router = require('express').Router();
 const database = require('../server.js'); 
 const api = require('../../disney-api/api.js'); 
 
+
 const _selectCharacterPrompt = async (characters) => {
     const displayCharacter = characters.map((character) => {
         return {display : `${character.name}`, id: character._id}
