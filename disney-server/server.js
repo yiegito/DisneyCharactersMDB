@@ -31,8 +31,49 @@ const mongo = () => {
             console.log(error); 
         } 
     }
+    async function save (collectionName, data){
+        try{
+            const collection = database.collection(collectionName); 
+        }
+        catch(error){
+            console.log(error); 
+        }
+    
+    }; 
+
+    // find the searchTerm in MongoDB
+    async function find(collectionName, term){
+        try{
+
+            const collection = database.collection(collectionName); 
+            if(term){
+                // finds the specific object by its search term
+                return await collection.find({searchTerm: term}).next();
+            }
+            else{
+                // if not found, then it will return all search terms
+                return await collection.find({}).toArray(); 
+            }
+        }
+        catch(error){
+            console.log(error); 
+        } 
+    }
+
+    async function update(collectionName, term, data ) {
+        try{
+
+        }
+        catch(error){
+            console.log(error); 
+        }
+
+    }
+
     return {
-        connect
+        connect, 
+        save,
+        find, update
     }; 
 }
 
