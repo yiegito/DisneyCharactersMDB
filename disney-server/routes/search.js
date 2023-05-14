@@ -45,10 +45,26 @@ router.get('/', async(req, res) => {
         console.log(result); 
 
         // gets the search results and responds with json
-        res.json(result); 
+        // res.json(result); 
 
         // create the search history object in MongoDB
         // number 2
+
+        //check if the search term already exists in the database
+        const existSearch = await database.find(searchHistory, character);
+
+        if(existSearch){
+            // if the search term exists in the database, update last searched field
+            await database.update('searchHistory', character, { lastSearched: new Date()});
+
+        }
+        else{
+            // if the search term doesn't exist in database, create a new search object
+            await database.save('searchHistory', {searchTerm: character, searchCount: selected.length, lastSearched: new Date()});
+        }
+
+        res.json(result);
+
 
     }
     catch(error){
@@ -68,7 +84,27 @@ router.get('/:id/details', async(req, res) => {
 
         const background = await api.getWithId(id); 
 
-        // this is good 
+        // 2.
+        const { searchTerm } = background;
+
+        //finds document in database
+        const searchDocument = await database.collection('searches').findOne({searchTerm});
+
+        if(searchDocument){
+            //if there is selction key, add new selection to existing arr
+            if(searchDocument.selections){
+                searchDocument.selections.push({id, display: background.title});
+
+            }
+            else{
+                // if there is no selection key, create a new arr with the new first selection
+                searchDocument.selection = [{id, display: background.title}];
+            }
+            // update the document in the database with the new selection/s
+            await database.collection('searches').updateOne({searchTerm}, {$set: searchDocument});
+        }
+
+        // this is good (returns selected character details)
         res.json(background); 
     }
     catch(error){
