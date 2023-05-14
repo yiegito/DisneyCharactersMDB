@@ -3,7 +3,7 @@ const router = require('express').Router();
 const database = require('../server.js'); 
 const api = require('../../disney-api/api.js'); 
 
-
+ 
 const _selectCharacterPrompt = async (characters) => {
     if(characters.info.count === 1 ){
         return {display : `${characters.data.name}`, id: characters.data._id}
@@ -38,9 +38,12 @@ router.get('/', async(req, res) => {
 
         const selected = await _selectCharacterPrompt(char); 
 
+        console.log(selected); 
+
+        // [selected] not [...selected]
         const result = {
             searchTerm: character, 
-            results:[...selected] }
+            results:[selected] }
 
         console.log(result); 
 
