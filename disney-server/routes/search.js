@@ -82,12 +82,18 @@ router.get('/:id/details', async(req, res) => {
      
         //finds document in database
         const searchDocument = await database.find('searchHistory', term);
+
       
         // second part
         if(searchDocument){
+            const newObj = {
+                id: id,
+                display: background.name
+            }
             // if there is selction key, add new selection to existing arr
             if(searchDocument.selections){
-                await database.update('searchHistory', term, {selections: {id: id, display: background.name}}); 
+                // this needs to be fixed...
+                await database.update('searchHistory', term, {selections: []}); 
             }
             else{
                 // if there is no selection key, create a new arr with the new first selection

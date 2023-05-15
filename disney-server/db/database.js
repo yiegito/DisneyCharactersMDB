@@ -63,6 +63,19 @@ const mongo = () => {
         }
     }
 
+    async function updateArr(collectionName, term, data) {
+        try {
+            const collection = database.collection(collectionName);
+
+            await collection.updateOne(
+                {searchTerm: term},
+                {$push: data}
+            );
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return {
         connect, 
         save,
