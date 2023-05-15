@@ -38,23 +38,27 @@ router.get('/', async(req, res) => {
 
         const selected = await _selectCharacterPrompt(char); 
 
-        console.log(selected); 
-
         // [selected] not [...selected]
         const result = {
             searchTerm: character, 
             results:[selected] }
 
-        console.log(result); 
 
-        // const aver = await database.find('SearchHistory', character); 
-        // console.log(aver); 
+        const existSearch = await database.find('searchHistory', character);
+        // console.log(existSearch); 
+
+        if(existSearch){ 
+            // if the search term exists in the database, update last searched field
+            await database.update('searchHistory', character, {lastSearched: new Date()});
+
+        }
+        else{
+            // if the search term doesn't exist in database, create a new search object
+            await database.save('searchHistory', {searchTerm: character, searchCount: result.results.length, lastSearched: new Date()});
+        }
  
         // gets the search results and responds with json
         res.json(result); 
-
-        // create the search history object in MongoDB
-        // number 2
 
     }
     catch(error){
@@ -64,7 +68,6 @@ router.get('/', async(req, res) => {
 });
 
 
-
 router.get('/:id/details', async(req, res) => {
     try{
 
@@ -72,7 +75,29 @@ router.get('/:id/details', async(req, res) => {
 
         const{id} = params; 
 
-        const background = await api.getWithId(id); 
+        const background = await api.getWithId(id);
+        
+         // second
+
+         const { searchTerm } = background;
+
+         //finds document in database
+         const searchDocument = await database.collection('searches').findOne({searchTerm});
+ 
+        // second part
+         if(searchDocument){
+             //if there is selction key, add new selection to existing arr
+             if(searchDocument.selections){
+                 searchDocument.selections.push({id, display: background.title});
+ 
+             }
+             else{
+                 // if there is no selection key, create a new arr with the new first selection
+                 searchDocument.selection = [{id, display: background.title}];
+             }
+             // update the document in the database with the new selection/s
+             await database.collection('searches').updateOne({searchTerm}, {$set: searchDocument});
+         }
 
         // this is good 
         res.json(background); 

@@ -22,15 +22,14 @@ const mongo = () => {
             console.log(error); 
         } 
     }
-    async function save (collectionName, data){
-        try{
-            const collection = database.collection(collectionName); 
+    async function save(collectionName, data) {
+        try {
+            const collection = database.collection(collectionName);
+            await collection.insertOne(data);
+        } catch (error) {
+            console.log(error);
         }
-        catch(error){
-            console.log(error); 
-        }
-    
-    }; 
+    }
 
     // find the searchTerm in MongoDB
     async function find(collectionName, term){
@@ -51,14 +50,17 @@ const mongo = () => {
         } 
     }
 
-    async function update(collectionName, term, data ) {
-        try{
+    async function update(collectionName, term, data) {
+        try {
+            const collection = database.collection(collectionName);
 
+            await collection.updateOne(
+                {searchTerm: term},
+                {$set: data}
+            );
+        } catch (error) {
+            console.log(error);
         }
-        catch(error){
-            console.log(error); 
-        }
-
     }
 
     return {
