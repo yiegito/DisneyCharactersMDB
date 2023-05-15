@@ -1,36 +1,25 @@
-const fs = require('fs');
+const router = require('express').Router(); 
 
-const saveSearch = (searchName, results) => {
+const database = require('../db/database.js');
+const api = require('../../disney-api/api.js'); 
 
-    const resultCount = results.length;
-    const initData = {};
-    initData[searchName] = resultCount;
-    const initArr = [initData];
+router.get('/', async(req, res) => {
+    try {
+        const {query} = req;
 
-    const saveJSON = async(inData) => {
-        try {
-            await fs.promises.writeFile("./data.json", inData)
-    
-            console.log("File written successfully");
-    
-        } catch (err) {
-            console.error(err);
+        const {searchTerm} = query;
+
+        if(searchTerm === undefined) {
+            const presentHistory = await database.find('searchHistory');
+            res.json(presentHistory);
+        } else {
+            const presentSearch = await database.find('searchHistory', searchTerm);
+            res.json(presentSearch);
         }
-    };
 
-    fs.promises.readFile("./data.json")
-    .then((success) => {
-        // parse data, then send to saveJson
-        const adjustArray = JSON.parse(success);
-        adjustArray.push(initData);
-        saveJSON(JSON.stringify(adjustArray, null, 2));
+    } catch (error) {
+        res.status(500).json(error.toString()); 
+    }
+});
 
-    }).catch((err) => {
-        // if no exisiting file, create new file
-        saveJSON(JSON.stringify(initArr, null, 2));
-    });
-};
-
-module.exports = {
-    saveSearch
-};
+module.exports = router; 
