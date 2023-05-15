@@ -29,6 +29,7 @@ router.use((req, res, next) => {
 router.get('/', async(req, res) => {
     try{
         const {query} = req;
+        console.log(query); 
 
         // character is the query parameter
         // aka will return the character searched for
@@ -71,33 +72,29 @@ router.get('/', async(req, res) => {
 router.get('/:id/details', async(req, res) => {
     try{
 
-        const {params} = req;
+        const {params, query} = req;
+        // the character searched for or term
+        const {term} = query; 
 
         const{id} = params; 
 
-        const background = await api.getWithId(id);
-        
-         // second
-
-         const { searchTerm } = background;
-
-         //finds document in database
-         const searchDocument = await database.collection('searches').findOne({searchTerm});
- 
+        const background = await api.getWithId(id); 
+     
+        //finds document in database
+        const searchDocument = await database.find('searchHistory', term);
+      
         // second part
-         if(searchDocument){
-             //if there is selction key, add new selection to existing arr
-             if(searchDocument.selections){
-                 searchDocument.selections.push({id, display: background.title});
- 
-             }
-             else{
-                 // if there is no selection key, create a new arr with the new first selection
-                 searchDocument.selection = [{id, display: background.title}];
-             }
-             // update the document in the database with the new selection/s
-             await database.collection('searches').updateOne({searchTerm}, {$set: searchDocument});
-         }
+        if(searchDocument){
+            // if there is selction key, add new selection to existing arr
+            if(searchDocument.selections){
+                await database.update('searchHistory', term, {selections: {id: id, display: background.name}}); 
+            }
+            else{
+                // if there is no selection key, create a new arr with the new first selection
+                await database.update('searchHistory', term, {selections: [{id: id, display : background.name}]});
+                  
+            }
+        }
 
         // this is good 
         res.json(background); 
