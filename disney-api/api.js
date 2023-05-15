@@ -8,7 +8,7 @@ const getWithQuery = async (characterName) => {
         const res = await superagent.get(charUrl);
         
         // returns array of all searches that match query
-        return res.body.data;
+        return res.body;
     } catch (error) {
         console.log(error);
     }
