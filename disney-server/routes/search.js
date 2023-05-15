@@ -42,20 +42,23 @@ router.get('/', async(req, res) => {
         // [selected] not [...selected]
         const result = {
             searchTerm: character, 
-            results:[selected] }
+            results:[selected]
+        }
+            
+        const dbName = "searchHistory"; 
 
 
-        const existSearch = await database.find('searchHistory', character);
+        const existSearch = await database.find(dbName, character);
         // console.log(existSearch); 
 
         if(existSearch){ 
             // if the search term exists in the database, update last searched field
-            await database.update('searchHistory', character, {lastSearched: new Date()});
+            await database.update( dbName, character, {lastSearched: new Date()});
 
         }
         else{
             // if the search term doesn't exist in database, create a new search object
-            await database.save('searchHistory', {searchTerm: character, searchCount: result.results.length, lastSearched: new Date()});
+            await database.save(dbName, {searchTerm: character, searchCount: result.results.length, lastSearched: new Date()});
         }
  
         // gets the search results and responds with json
@@ -81,7 +84,7 @@ router.get('/:id/details', async(req, res) => {
         const background = await api.getWithId(id); 
      
         //finds document in database
-        const searchDocument = await database.find('searchHistory', term);
+        const searchDocument = await database.find(dbName, term);
 
       
         // second part
@@ -93,11 +96,11 @@ router.get('/:id/details', async(req, res) => {
             // if there is selction key, add new selection to existing arr
             if(searchDocument.selections){
                 // this needs to be fixed...
-                await database.update('searchHistory', term, {selections: []}); 
+                await database.update(dbName, term, {selections: [...searchDocument.selections, {id, display: background.name}]}); 
             }
             else{
                 // if there is no selection key, create a new arr with the new first selection
-                await database.update('searchHistory', term, {selections: [{id: id, display : background.name}]});
+                await database.update( dbName, term, {selections: [{id, display : background.name}]});
                   
             }
         }
