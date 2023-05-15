@@ -1,6 +1,6 @@
 const router = require('express').Router(); 
 
-const database = require('../server.js'); 
+const database = require('../db/database.js');
 const api = require('../../disney-api/api.js'); 
 
  
@@ -47,6 +47,9 @@ router.get('/', async(req, res) => {
 
         console.log(result); 
 
+        // const aver = await database.find('SearchHistory', character); 
+        // console.log(aver); 
+ 
         // gets the search results and responds with json
         res.json(result); 
 
@@ -79,5 +82,6 @@ router.get('/:id/details', async(req, res) => {
     }
 
 });
+ 
 
 module.exports = router; 
