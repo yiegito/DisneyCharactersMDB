@@ -48,7 +48,7 @@ const mongo = () => {
         catch(error){
             console.log(error); 
         } 
-    }
+    } 
 
     async function update(collectionName, term, data) {
         try {
@@ -62,6 +62,7 @@ const mongo = () => {
             console.log(error);
         }
     }
+
 
     return {
         connect, 

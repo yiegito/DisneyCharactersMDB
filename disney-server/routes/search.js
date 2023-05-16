@@ -18,17 +18,12 @@ const _selectCharacterPrompt = async (characters) => {
 };
 
 
-// middleware?
-router.use((req, res, next) => {
-
-    next(); 
-}); 
-
 
 // this is '/search'
 router.get('/', async(req, res) => {
     try{
         const {query} = req;
+        console.log(query); 
 
         // character is the query parameter
         // aka will return the character searched for
@@ -41,20 +36,23 @@ router.get('/', async(req, res) => {
         // [selected] not [...selected]
         const result = {
             searchTerm: character, 
-            results:[selected] }
+            results:[selected]
+        }
+            
+        const dbName = "searchHistory"; 
 
 
-        const existSearch = await database.find('searchHistory', character);
+        const existSearch = await database.find(dbName, character);
         // console.log(existSearch); 
 
         if(existSearch){ 
             // if the search term exists in the database, update last searched field
-            await database.update('searchHistory', character, {lastSearched: new Date()});
+            await database.update( dbName, character, {lastSearched: new Date()});
 
         }
         else{
             // if the search term doesn't exist in database, create a new search object
-            await database.save('searchHistory', {searchTerm: character, searchCount: result.results.length, lastSearched: new Date()});
+            await database.save(dbName, {searchTerm: character, searchCount: result.results.length, lastSearched: new Date()});
         }
  
         // gets the search results and responds with json
@@ -70,34 +68,36 @@ router.get('/', async(req, res) => {
 
 router.get('/:id/details', async(req, res) => {
     try{
-
-        const {params} = req;
+        const dbName = "searchHistory"; 
+        const {params, query} = req;
+        // the character searched for or term
+        const {term} = query; 
 
         const{id} = params; 
 
-        const background = await api.getWithId(id);
-        
-         // second
+        const background = await api.getWithId(id); 
+     
+        //finds document in database
+        const searchDocument = await database.find(dbName, term);
 
-         const { searchTerm } = background;
-
-         //finds document in database
-         const searchDocument = await database.collection('searches').findOne({searchTerm});
- 
+      
         // second part
-         if(searchDocument){
-             //if there is selction key, add new selection to existing arr
-             if(searchDocument.selections){
-                 searchDocument.selections.push({id, display: background.title});
- 
-             }
-             else{
-                 // if there is no selection key, create a new arr with the new first selection
-                 searchDocument.selection = [{id, display: background.title}];
-             }
-             // update the document in the database with the new selection/s
-             await database.collection('searches').updateOne({searchTerm}, {$set: searchDocument});
-         }
+        if(searchDocument){
+            const newObj = {
+                id: id,
+                display: background.name
+            }
+            // if there is selction key, add new selection to existing arr
+            if(searchDocument.selections){
+                // this needs to be fixed...
+                await database.update(dbName, term, {selections: [...searchDocument.selections, {id, display: background.name}]}); 
+            }
+            else{
+                // if there is no selection key, create a new arr with the new first selection
+                await database.update( dbName, term, {selections: [{id, display : background.name}]});
+                  
+            }
+        }
 
         // this is good 
         res.json(background); 
