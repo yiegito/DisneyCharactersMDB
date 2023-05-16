@@ -18,12 +18,6 @@ const _selectCharacterPrompt = async (characters) => {
 };
 
 
-// middleware?
-router.use((req, res, next) => {
-
-    next(); 
-}); 
-
 
 // this is '/search'
 router.get('/', async(req, res) => {
@@ -74,7 +68,7 @@ router.get('/', async(req, res) => {
 
 router.get('/:id/details', async(req, res) => {
     try{
-
+        const dbName = "searchHistory"; 
         const {params, query} = req;
         // the character searched for or term
         const {term} = query; 
